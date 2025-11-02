@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
@@ -24,11 +24,49 @@ import { NotificationsModule } from './notifications/notifications.module';
       isGlobal: true,
     }),
     RedisModule,
-    MongooseModule.forRoot(
-      // 'mongodb+srv://kaliodev:kaliodev@kaiodevcluster.1my9s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-      'mongodb+srv://kalio:J5cMxQjisKRiBN9k@cluster0.ryiikhl.mongodb.net/lnk?retryWrites=true&w=majority',
-      // 'mongodb://127.0.0.1:27017/kaliodb',
-    ),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        // Get MongoDB URI from environment variables
+        const uri = configService.get<string>(
+          'MONGODB_URI',
+          'mongodb://localhost:27017/lnk_db',
+        );
+
+        // Get optional auth credentials from environment variables
+        const username = configService.get<string>('MONGODB_USERNAME');
+        const password = configService.get<string>('MONGODB_PASSWORD');
+
+        // Get database name from environment or use default
+        const dbName = configService.get<string>('MONGODB_DATABASE', 'lnk_db');
+
+        // Check if URI already has a database name
+        const hasDbInUri =
+          uri.split('/').length > 3 && uri.split('/')[3] !== '';
+
+        // If credentials are provided and URI doesn't already contain auth
+        let connectionUri = uri;
+        if (username && password && !uri.includes('@')) {
+          // Extract protocol and the rest of the URI
+          const [protocol, restOfUri] = uri.split('://');
+          connectionUri = `${protocol}://${encodeURIComponent(username)}:${encodeURIComponent(password)}@${restOfUri}`;
+        }
+
+        // Remove the database name from URI if we're going to specify it separately
+        if (hasDbInUri && dbName) {
+          connectionUri = connectionUri.split('/').slice(0, 3).join('/');
+        }
+
+        return {
+          uri: connectionUri,
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          dbName: dbName, // Explicitly set the database name
+          authSource: configService.get<string>('MONGODB_AUTH_SOURCE', 'admin'),
+        };
+      },
+    }),
     AuthModule,
     UsersModule,
     EmailModule,

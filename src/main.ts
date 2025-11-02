@@ -25,7 +25,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://yamozone.com'], // or specify domains like ['http://localhost:3000', 'https://yourdomain.com']
+    origin: ['http://localhost:3000', 'https://yamohub.work.gd'], // or specify domains like ['http://localhost:3000', 'https://yourdomain.com']
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

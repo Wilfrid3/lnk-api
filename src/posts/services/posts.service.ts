@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Injectable,
   NotFoundException,
@@ -194,6 +196,32 @@ export class PostsService {
         `Erreur lors de la création de l'annonce: ${error.message}`,
       );
     }
+  }
+
+  async getTopCities() {
+    const cities = await this.postModel.aggregate([
+      {
+        $match: { isActive: true },
+      },
+      {
+        $group: {
+          _id: '$city',
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { count: -1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          city: '$_id',
+          count: 1,
+        },
+      },
+    ]);
+
+    return cities;
   }
 
   async findAll(

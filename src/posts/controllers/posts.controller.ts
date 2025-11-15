@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Get,
@@ -271,6 +272,30 @@ export class PostsController {
     @Query() queryDto: QueryPostDto,
   ) {
     return this.postsService.findByUserId(userId, queryDto);
+  }
+
+  @Get('cities/top-cities')
+  @Public()
+  @ApiOperation({
+    summary: 'Obtenir les villes avec le plus de posts',
+    description: 'Retourne la liste des villes classées par nombre de posts décroissant',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Liste des villes récupérée avec succès',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          city: { type: 'string', example: 'Yaoundé' },
+          count: { type: 'number', example: 10 },
+        },
+      },
+    },
+  })
+  async getTopCities() {
+    return this.postsService.getTopCities();
   }
 
   @Get(':id')

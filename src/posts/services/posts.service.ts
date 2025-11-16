@@ -281,19 +281,67 @@ export class PostsService {
     filterQuery.isActive = true;
 
     try {
-      // Execute query with pagination
-      const [posts, totalItems] = await Promise.all([
-        this.postModel
-          .find(filterQuery)
-          .sort(sortOptions)
-          .skip(skip)
-          .limit(limit)
-          .exec(),
-        this.postModel.countDocuments(filterQuery).exec(),
-      ]);
+      // Build aggregation pipeline
+      const pipeline: any[] = [
+        { $match: filterQuery },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'userInfo',
+          },
+        },
+      ];
 
-      // Populate file references
-      const populatedPosts = await this.populatePostFiles(posts);
+      // Add user name filter if provided
+      if (filters.userName) {
+        pipeline.push({
+          $match: {
+            'userInfo.name': { $regex: filters.userName, $options: 'i' },
+          },
+        });
+      }
+
+      // Add sorting
+      pipeline.push({ $sort: sortOptions });
+
+      // Add pagination
+      pipeline.push({ $skip: skip });
+      pipeline.push({ $limit: limit });
+
+      // Execute aggregation pipeline
+      const posts = await this.postModel.aggregate(pipeline).exec();
+
+      // Count total items (without pagination)
+      const countPipeline = [
+        { $match: filterQuery },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'userInfo',
+          },
+        },
+      ];
+
+      if (filters.userName) {
+        countPipeline.push({
+          $match: {
+            'userInfo.name': { $regex: filters.userName, $options: 'i' },
+          },
+        });
+      }
+
+      countPipeline.push({ $count: 'total' });
+
+      const countResult = await this.postModel.aggregate(countPipeline).exec();
+      const totalItems = countResult.length > 0 ? countResult[0].total : 0;
+
+      // Convert aggregation results back to documents and populate file references
+      const postDocs = posts.map(post => new this.postModel(post));
+      const populatedPosts = await this.populatePostFiles(postDocs);
 
       // Calculate pagination metadata
       const totalPages = Math.ceil(totalItems / limit);

@@ -108,4 +108,9 @@ export class QueryPostDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiProperty({ required: false, description: 'User name filter' }) // Ajouter cette ligne
+  @IsOptional() // Ajouter cette ligne
+  @IsString() // Ajouter cette ligne
+  userName?: string; // Ajouter cette ligne
 }

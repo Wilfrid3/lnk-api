@@ -39,6 +39,8 @@ export interface VideosFeedResponse {
 export interface VideoUploadResponse {
   id: string;
   title: string;
+  phone: string;
+  whatsapp: string;
   description: string;
   videoUrl: string;
   thumbnailUrl?: string;

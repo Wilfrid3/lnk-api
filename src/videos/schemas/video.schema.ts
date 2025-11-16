@@ -7,6 +7,12 @@ export type VideoDocument = Video & Document;
 export class Video {
   @Prop({ required: true })
   title: string;
+  
+  @Prop({ required: true })
+  phone: string;
+
+  @Prop({ required: true })
+  whatsapp: string;
 
   @Prop({ required: true })
   description: string;

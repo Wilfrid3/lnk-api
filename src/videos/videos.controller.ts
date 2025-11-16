@@ -89,6 +89,8 @@ export class VideosController {
       properties: {
         id: { type: 'string' },
         title: { type: 'string' },
+        phone: { type: 'string' },
+        whatsapp: { type: 'string' },
         description: { type: 'string' },
         videoUrl: { type: 'string' },
         thumbnailUrl: { type: 'string' },
@@ -193,6 +195,8 @@ export class VideosController {
     const userId = req.user.sub;
     const createVideoDto: CreateVideoDto = {
       title: videoData.title,
+      phone: videoData.phone,
+      whatsapp: videoData.whatsapp,
       description: videoData.description,
       tags: videoData.tags || [],
       location: videoData.location,

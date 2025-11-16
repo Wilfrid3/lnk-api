@@ -19,6 +19,16 @@ export class CreateVideoDto {
   @MaxLength(100)
   title: string;
 
+  @IsString()
+  @MinLength(1)
+  @MaxLength(100)
+  phone: string;
+
+  @IsString()
+  @MinLength(1)
+  @MaxLength(100)
+  whatsapp: string;
+
   @ApiProperty({
     description: 'Video description',
     example: 'Check out this amazing dance routine!',

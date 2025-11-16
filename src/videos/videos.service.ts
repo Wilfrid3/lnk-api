@@ -114,6 +114,8 @@ export class VideosService {
       // Create video document
       const video = new this.videoModel({
         title: createVideoDto.title,
+        phone: createVideoDto.phone,
+        whatsapp: createVideoDto.whatsapp,
         description: createVideoDto.description,
         fileName: videoFile.originalname,
         filePath: videoPath,
@@ -156,6 +158,8 @@ export class VideosService {
       return {
         id: (savedVideo._id as any).toString(),
         title: savedVideo.title,
+        phone: savedVideo.phone,
+        whatsapp: savedVideo.whatsapp,
         description: savedVideo.description,
         videoUrl: `/api/videos/${savedVideo._id}/stream`,
         thumbnailUrl: savedVideo.thumbnailPath

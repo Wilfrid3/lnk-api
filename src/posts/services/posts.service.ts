@@ -314,7 +314,7 @@ export class PostsService {
       const posts = await this.postModel.aggregate(pipeline).exec();
 
       // Count total items (without pagination)
-      const countPipeline = [
+      const countPipeline: any[] = [
         { $match: filterQuery },
         {
           $lookup: {

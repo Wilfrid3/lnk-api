@@ -15,6 +15,8 @@ export interface VideoUser {
 export interface VideoResponse {
   id: string;
   title: string;
+  phone: string;
+  whatsapp: string;
   description: string;
   videoUrl: string;
   thumbnailUrl?: string;

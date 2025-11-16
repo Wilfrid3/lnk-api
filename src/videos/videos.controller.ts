@@ -232,6 +232,8 @@ export class VideosController {
             properties: {
               id: { type: 'string' },
               title: { type: 'string' },
+              phone: { type: 'string' },
+              whatsapp: { type: 'string' },
               description: { type: 'string' },
               videoUrl: { type: 'string' },
               thumbnailUrl: { type: 'string' },

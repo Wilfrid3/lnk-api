@@ -244,6 +244,8 @@ export class VideosService {
         return {
           id: (video._id as any).toString(),
           title: video.title,
+          phone: video.phone,
+          whatsapp: video.whatsapp,
           description: video.description,
           videoUrl: `/api/videos/${video._id}/stream`,
           thumbnailUrl: video.thumbnailPath
@@ -351,6 +353,8 @@ export class VideosService {
         return {
           id: (video._id as any).toString(),
           title: video.title,
+          phone: video.phone,
+          whatsapp: video.whatsapp,
           description: video.description,
           videoUrl: `/api/videos/${video._id}/stream`,
           thumbnailUrl: video.thumbnailPath
@@ -444,6 +448,8 @@ export class VideosService {
       const response = {
         id: (video._id as any).toString(),
         title: video.title,
+          phone: video.phone,
+          whatsapp: video.whatsapp,
         description: video.description,
         videoUrl: `/api/videos/${video._id}/stream`,
         thumbnailUrl: video.thumbnailPath

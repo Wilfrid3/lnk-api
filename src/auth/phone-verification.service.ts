@@ -53,24 +53,29 @@ export class PhoneVerificationService {
 
     // Send the verification code via Twilio Verify API with custom code
     try {
-      if (this.twilioClient && this.verifyServiceSid) {
-        await this.twilioClient.verify.v2
-          .services(this.verifyServiceSid)
-          .verifications.create({
-            to: phoneNumber,
-            channel: 'sms',
-            customCode: code,
-          });
+      // if (this.twilioClient && this.verifyServiceSid) {
+      //   // await this.twilioClient.verify.v2
+      //   //   .services(this.verifyServiceSid)
+      //   //   .verifications.create({
+      //   //     to: phoneNumber,
+      //   //     channel: 'sms',
+      //   //     customCode: code,
+      //   //   });
 
-        this.logger.log(
-          `Verification initiated with custom code to ${phoneNumber}`,
-        );
-      } else {
-        // For development or when Twilio is not configured, just log the code
-        this.logger.log(
-          `Verification code for ${phoneNumber}: ${code} (Twilio Verify not configured, SMS not sent)`,
-        );
-      }
+      //   this.logger.log(
+      //     `Verification initiated with custom code to ${phoneNumber}`,
+      //   );
+      // } else {
+      //   // For development or when Twilio is not configured, just log the code
+      //   this.logger.log(
+      //     `Verification code for ${phoneNumber}: ${code} (Twilio Verify not configured, SMS not sent)`,
+      //   );
+      // }
+      const sms = `Your YamoHub verification code : ${code}`;
+      const senderId = 'TECHSOF SMS';
+      await fetch(`https://app.techsoft-sms.com/api/http/sms/send?sender_id=${senderId}&message=${sms}&recipient=${phoneNumber}&api_token=1437|vaq1UkBDMZ7n1MFPGHX00mpraF69fae438F9WFHg598e4792`)
+        .then((resp) => resp.json())
+        .then((result) => console.log(result));
     } catch (error) {
       this.logger.error(
         `Failed to send verification to ${phoneNumber}: ${error.message || 'Unknown error'}`,

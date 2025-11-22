@@ -36,7 +36,7 @@ export class WatermarkService {
     useLogo: true, // Enable logo now that we have the SVG
   };
   
-  private readonly logoPath = path.join(process.cwd(), 'assets', 'logo.svg');
+  private readonly logoPath = path.join(process.cwd(), 'assets', 'watermark.svg');
 
   /**
    * Apply watermark to an image file

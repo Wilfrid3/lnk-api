@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/lnk-api:latest
+      IMAGE_NAME: ghcr.io/wilfrid3/lnk-api:latest
 
     steps:
       - name: Checkout repository
@@ -20,7 +20,7 @@ jobs:
 
       - name: Login to GHCR
         run: |
-          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ github.repository_owner }}" --password-stdin
+          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "wilfrid3" --password-stdin
 
       - name: Push image to GHCR
         run: |

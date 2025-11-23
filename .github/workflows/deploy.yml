@@ -7,25 +7,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: ghcr.io/wilfrid3/lnk-api:latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: |
-          docker build -t $IMAGE_NAME .
+        run: docker build -t ghcr.io/wilfrid3/lnk-api:latest .
 
       - name: Login to GHCR
         run: |
-          echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "wilfrid3" --password-stdin
-
-      - name: Push image to GHCR
-        run: |
-          docker push $IMAGE_NAME
-
+          echo "${{ secrets.GHCR_TOKEN }}" |
+          docker login ghcr.io -u wilfrid3 --password-stdin
+      
       - name: Generate .env.production
         run: |
           set -euo pipefail
@@ -72,40 +65,23 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT || '22' }}
           source: ".env.production"
-          target: "/home/yamohub/.env.production"
+          target: "/home/yamohub-api/.env.production"
 
-      - name: Deploy on server (pull image, update container)
+      - name: Push image
+        run: docker push ghcr.io/wilfrid3/lnk-api:latest
+
+      - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_SSH_PORT || '22' }}
           script: |
-            set -euo pipefail
-
-            set -e
-
-            IMAGE_NAME="ghcr.io/wilfrid3/lnk-api:latest"
-
-            echo "Deployment started..."
-
-            cd /home/yamohub
+            cd /home/yamohub-api
 
             echo "Ensure .env.production permissions..."
             sudo chown $USER:$USER .env.production || true
             sudo chmod 600 .env.production || true
 
-            echo "Pulling latest image: $IMAGE_NAME"
             docker-compose pull yamohub-api
-
-            echo "Restarting yamohub-api container"
             docker-compose up -d yamohub-api
-
-            echo "Wait a few seconds for container to start..."
-            sleep 5
-
-            echo "Pruning dangling images"
-            docker image prune -f || true
-
-            echo "Deployment finished."

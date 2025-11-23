@@ -65,7 +65,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT || '22' }}
           source: ".env.production"
-          target: "/home/yamohub-api/.env.production"
+          target: "/home/yamohub-api"
 
       - name: Push image
         run: docker push ghcr.io/wilfrid3/lnk-api:latest

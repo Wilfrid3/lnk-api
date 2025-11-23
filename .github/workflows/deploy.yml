@@ -97,10 +97,10 @@ jobs:
             sudo chmod 600 .env.production || true
 
             echo "Pulling latest image: $IMAGE_NAME"
-            docker compose pull yamohub-api
+            docker-compose pull yamohub-api
 
             echo "Restarting yamohub-api container"
-            docker compose up -d yamohub-api
+            docker-compose up -d yamohub-api
 
             echo "Wait a few seconds for container to start..."
             sleep 5

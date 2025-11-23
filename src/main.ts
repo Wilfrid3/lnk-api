@@ -25,7 +25,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://yamohub.work.gd'], // or specify domains like ['http://localhost:3000', 'https://yourdomain.com']
+    origin: ['http://localhost:3000', 'https://yamohub.com'], // or specify domains like ['http://localhost:3000', 'https://yourdomain.com']
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
@@ -42,8 +42,8 @@ async function bootstrap() {
 
   // Set up Swagger documentation
   const config = new DocumentBuilder()
-    .setTitle('LNK API')
-    .setDescription('The LNK API documentation')
+    .setTitle('YamoHub API')
+    .setDescription('The YamoHub API documentation')
     .setVersion('1.0')
     .addBearerAuth()
     // Update Swagger server URL to include the /api prefix

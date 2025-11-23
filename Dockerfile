@@ -7,6 +7,8 @@ RUN npm install --production
 
 COPY . .
 
+RUN rm -rf dist
+
 RUN npm run build
 
 EXPOSE 3000

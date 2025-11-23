@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/wilfrid3/lnk-api:latest .
+        run: docker build --no-cache -t ghcr.io/wilfrid3/lnk-api:latest .
 
       - name: Login to GHCR
         run: |

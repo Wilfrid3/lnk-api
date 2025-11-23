@@ -1,8 +1,8 @@
 // src/controllers/adult-services.controller.ts
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AdultServicesService } from '../services/adult-services.service';
-import { Public } from '@/common/decorators/public.decorator';
+import { Public } from '../../../common/decorators/public.decorator';
 
 @ApiTags('Adult Services')
 @Public()

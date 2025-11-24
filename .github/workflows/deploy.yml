@@ -29,6 +29,12 @@ jobs:
           # MongoDB
           echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env.production
 
+          # Redis
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env.production
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env.production
+          echo "REDIS_DB=${{ secrets.REDIS_DB }}" >> .env.production
+          echo "REDIS_PASSWORD=" >> .env.production
+
           # JWT
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env.production
           echo "JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}" >> .env.production

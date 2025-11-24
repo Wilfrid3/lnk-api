@@ -31,8 +31,9 @@ export class RegisterDto {
   })
   @IsEnum(UserType)
   userType: UserType;
-  @ApiProperty({ required: true, description: 'User phone number' })
-  @IsNotEmpty({ message: 'Phone number is required' })
+
+  @ApiProperty({ required: false, description: 'User phone number' })
+  @IsOptional()
   @IsString({ message: 'Phone number must be a string' })
   phoneNumber: string;
 
@@ -58,8 +59,8 @@ export class RegisterDto {
   @Max(100, { message: 'Age must be less than 100' })
   age: number;
 
-  @ApiProperty({ required: false, description: 'User email address' })
-  @IsOptional()
+  @ApiProperty({ required: true, description: 'User email address' })
+  @IsNotEmpty({ message: 'Email is required' })
   @IsEmail({}, { message: 'Invalid email format' })
   email?: string;
 

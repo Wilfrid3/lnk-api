@@ -215,19 +215,19 @@ export class AuthService {
 
   async register(registerDto: any, inviteCode?: string): Promise<any> {
     // Check if user exists with this phone or email
-    const existingUserByPhone = await this.usersService.findByPhone(
-      registerDto.phoneNumber,
+    const existingUserByEmail = await this.usersService.findByEmail(
+      registerDto.email,
     );
-    if (existingUserByPhone) {
-      throw new BadRequestException('Phone number already registered');
+    if (existingUserByEmail) {
+      throw new BadRequestException('Email already registered');
     }
 
-    if (registerDto.email) {
-      const existingUserByEmail = await this.usersService.findByEmail(
-        registerDto.email,
+    if (registerDto.phoneNumber) {
+      const existingUserByPhone = await this.usersService.findByPhone(
+        registerDto.phoneNumber,
       );
-      if (existingUserByEmail) {
-        throw new BadRequestException('Email already registered');
+      if (existingUserByPhone) {
+        throw new BadRequestException('Phone Number already registered');
       }
     }
 
@@ -239,7 +239,7 @@ export class AuthService {
     // Create new user
     const user = await this.usersService.create({
       ...registerDto,
-      isPhoneVerified: false,
+      isEmailVerified: false,
     });
 
     // Process invite code if provided
@@ -258,31 +258,30 @@ export class AuthService {
     // Generate verification codes
     const verificationMessages: string[] = [];
 
-    // Send phone verification code
+    // Send email verification code
     try {
-      await this.sendVerificationCode(registerDto.phoneNumber);
-      verificationMessages.push('Phone verification code sent');
+      await this.emailVerificationService.sendVerificationCode(registerDto.email, registerDto.name);
+      verificationMessages.push('Email verification code sent');
     } catch (error) {
-      console.error('Failed to send phone verification code:', error.message);
+      console.error('Failed to send email verification code:', error.message);
     }
 
     // Send email verification code if email is provided
-    if (registerDto.email) {
+    if (registerDto.phoneNumber) {
       try {
-        await this.emailVerificationService.sendVerificationCode(
-          registerDto.email,
-          registerDto.name,
+        await this.sendVerificationCode(
+          registerDto.phoneNumber
         );
-        verificationMessages.push('Email verification code sent');
+        verificationMessages.push('Phone verification code sent');
       } catch (error) {
         console.error('Failed to send email verification code:', error.message);
       }
     } else {
       verificationMessages.push(
-        'No email provided, skipping email verification',
+        'No Phone provided, skipping phone verification',
       );
       // log the message but don't throw an error
-      console.warn('No email provided, skipping email verification');
+      console.warn('No phone provided, skipping phone verification');
     }
 
     const message =

@@ -23,7 +23,7 @@ export interface WatermarkResult {
 @Injectable()
 export class WatermarkService {
   private readonly logger = new Logger(WatermarkService.name);
-  private readonly defaultWatermarkText = 'YamoZone';
+  private readonly defaultWatermarkText = 'YamoHub';
   
   // Default configuration
   private readonly defaultOptions: WatermarkOptions = {
@@ -445,7 +445,7 @@ export class WatermarkService {
         'Logo watermark failed, falling back to text:',
         (error as Error).message,
       );
-      const textSvg = this.createTextWatermarkSvg('YamoZone', size, '#FFFFFF', opacity);
+      const textSvg = this.createTextWatermarkSvg('YamoHub', size, '#FFFFFF', opacity);
       return Buffer.from(textSvg, 'utf-8');
     }
   }

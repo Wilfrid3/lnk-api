@@ -42,7 +42,7 @@ interface OnlineStatusData {
 @Injectable()
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:3000', 'https://yamozone.com'],
+    origin: ['http://localhost:3000', 'https://yamohub.com', 'https://www.yamohub.com'],
     credentials: true,
   },
   namespace: '/chat',

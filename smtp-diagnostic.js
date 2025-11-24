@@ -14,7 +14,7 @@ console.log('\n=== Troubleshooting Steps ===\n');
 
 console.log('1. VERIFY EMAIL ACCOUNT:');
 console.log('   - Log into your mail server admin panel');
-console.log('   - Confirm no-reply@yamozone.com exists');
+console.log('   - Confirm no-reply@YamoHub.com exists');
 console.log('   - Check if SMTP/authentication is enabled for this account');
 
 console.log('\n2. TEST WITH DIFFERENT ACCOUNT:');

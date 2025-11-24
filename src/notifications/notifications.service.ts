@@ -181,7 +181,7 @@ export class NotificationsService {
     try {
       const payload: NotificationPayload = {
         title: 'Bienvenue! 🎉',
-        body: 'Bienvenue sur YamoZone! Commencez à explorer et à vous connecter avec les autres.',
+        body: 'Bienvenue sur YamoHub! Commencez à explorer et à vous connecter avec les autres.',
         icon: '/icons/welcome-icon-party.png',
         url: '/',
       };
@@ -197,7 +197,7 @@ export class NotificationsService {
     try {
       const payload: NotificationPayload = {
         title: 'Bon retour! 👋',
-        body: 'Content de vous revoir sur YamoZone! Découvrez les nouvelles publications et messages.',
+        body: 'Content de vous revoir sur YamoHub! Découvrez les nouvelles publications et messages.',
         icon: '/icons/welcome-back-icon.png',
         url: '/',
       };

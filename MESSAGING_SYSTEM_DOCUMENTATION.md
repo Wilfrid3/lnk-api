@@ -581,7 +581,7 @@ UPLOAD_PATH=./upload/chat/
 
 # WebSocket
 WEBSOCKET_PORT=3001
-CORS_ORIGINS=http://localhost:3000,https://yamozone.com
+CORS_ORIGINS=http://localhost:3000,https://YamoHub.com
 ```
 
 ### Docker Configuration
@@ -619,7 +619,7 @@ services:
 # nginx.conf for WebSocket support
 server {
     listen 80;
-    server_name api.yamozone.com;
+    server_name api.YamoHub.com;
 
     location /chat {
         proxy_pass http://localhost:3001;

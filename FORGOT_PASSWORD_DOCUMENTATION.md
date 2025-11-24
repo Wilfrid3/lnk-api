@@ -75,7 +75,7 @@ The system includes professionally designed French email templates:
 
 ### HTML Template (`password-reset.hbs`)
 - Responsive design
-- YamoZone branding
+- YamoHub branding
 - Clear call-to-action button
 - Security warnings
 - Fallback text link

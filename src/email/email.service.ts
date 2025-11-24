@@ -261,7 +261,7 @@ export class EmailService {
   ): Promise<boolean> {
     const { email, code, name, expiresInMinutes = 10 } = data;
 
-    const subject = 'Code de Vérification Email - YamoZone';
+    const subject = 'Code de Vérification Email - YamoHub';
     const html = this.loadTemplate('verification-code.hbs', {
       greeting: name ? `Bonjour ${name},` : 'Bonjour,',
       code,
@@ -282,7 +282,7 @@ export class EmailService {
   }
 
   async sendWelcomeEmail(email: string, name?: string): Promise<boolean> {
-    const subject = 'Bienvenue sur YamoZone !';
+    const subject = 'Bienvenue sur YamoHub !';
     const greeting = name ? `Bonjour ${name},` : 'Bonjour,';
 
     const html = this.loadTemplate('welcome.hbs', { greeting });
@@ -299,7 +299,7 @@ export class EmailService {
   async sendPasswordResetEmail(data: PasswordResetEmailData): Promise<boolean> {
     const { email, resetLink, name, expiresInMinutes = 30 } = data;
 
-    const subject = 'Réinitialisation de mot de passe - YamoZone';
+    const subject = 'Réinitialisation de mot de passe - YamoHub';
     const greeting = name ? `Bonjour ${name},` : 'Bonjour,';
 
     const html = this.loadTemplate('password-reset.hbs', {

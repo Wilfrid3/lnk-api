@@ -222,7 +222,7 @@ export class AuthService {
       throw new BadRequestException('Email already registered');
     }
 
-    if (registerDto.phoneNumber) {
+    if (registerDto.phoneNumber && registerDto.phoneNumber !== '+237') {
       const existingUserByPhone = await this.usersService.findByPhone(
         registerDto.phoneNumber,
       );
@@ -267,7 +267,7 @@ export class AuthService {
     }
 
     // Send email verification code if email is provided
-    if (registerDto.phoneNumber) {
+    if (registerDto.phoneNumber  && registerDto.phoneNumber !== '+237') {
       try {
         await this.sendVerificationCode(
           registerDto.phoneNumber
